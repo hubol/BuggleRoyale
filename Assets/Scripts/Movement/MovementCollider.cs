@@ -7,6 +7,9 @@ public class MovementCollider : MonoBehaviour {
 	public TerrainGrid grid;
 	// Cells this Collider treats as solid
 	public TerrainGrid.GridCell[] impassableCells;
+	// The radius of this cube
+	[Range(0,0.5f)]
+	public float radius;
 
 	// Get contents by rounding floats. Returns NONE if x,y, or z is out of bounds [0, size)
 	public TerrainGrid.GridCell GetGridCell(float x, float y, float z) {
@@ -15,8 +18,19 @@ public class MovementCollider : MonoBehaviour {
 		return grid.grid[(int)x, (int)y, (int)z];
 	}
 
-	[Range(0,0.5f)]
-	public float radius;
+	private float minX {get{return transform.localPosition.x - radius;}}
+	private float maxX {get{return transform.localPosition.x + radius;}}
+	private float minY {get{return transform.localPosition.y - radius;}}
+	private float maxY {get{return transform.localPosition.y + radius;}}
+	private float minZ {get{return transform.localPosition.z - radius;}}
+	private float maxZ {get{return transform.localPosition.z + radius;}}
+
+	// Whether there is a union between these two MovementColliders
+	public bool HasUnion(MovementCollider a){
+		return 	(a.minX < maxX && a.maxX > minX) &&
+				(a.minY < maxY && a.maxY > minY) &&
+				(a.minZ < maxZ && a.maxZ > minZ);
+	}
 
 	// Move this Collider by speed until it collides with any of the given GridCells
 	public bool MoveByUntil(Vector3 speed, params TerrainGrid.GridCell[] types){
