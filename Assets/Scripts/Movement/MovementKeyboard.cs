@@ -30,9 +30,7 @@ public class MovementKeyboard : MovementBase {
 			// Apply friction to speed
 			speed = Vector3.MoveTowards(speed, spd, friction);
 		}
-		// Check if movement is legal
-		if (!mCollider.CollidesAt(transform.localPosition + speed, mCollider.impassableCells)){
-			transform.Translate(speed);
-		}
+		// Incrementally move
+		mCollider.MoveByUntil(speed, mCollider.impassableCells);
 	}
 }
