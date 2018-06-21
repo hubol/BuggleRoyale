@@ -5,6 +5,8 @@ using UnityEngine;
 
 
 //Renders isometric sprites, both free and grid-based.
+//NOTE: it's necessary that IsoRender's Update occur before other objects which call its render,
+//so it can clear its pool.
 public class IsoRender : MonoBehaviour {
 	public TerrainGrid terrainGrid;   //link to terrain grid
 	public Sprite basicBlockSprite;   //sprite to use for BASIC_BLOCK type
@@ -45,6 +47,22 @@ public class IsoRender : MonoBehaviour {
 					}
 				}
 	}
+
+
+	
+	//Renders a free (non-grid) object in the world.
+	//You can use a positive "bias" value to nudge the object towards
+	//the camera.
+	public void RenderFreeObject(Sprite sprite, Vector3 pos, float bias)
+	{
+		SpriteRenderer spr = UnpoolSprite(sprite, pos.x, pos.y, pos.z);
+
+		//now we need to scootch this towards the camera using bias
+		Vector3 spr_pos = spr.transform.localPosition;
+		spr_pos += mainCamera.transform.TransformDirection(Vector3.forward) * -bias;
+		spr.transform.localPosition = spr_pos;
+	}
+
 
 
 	SpriteRenderer UnpoolSprite(Sprite spr, float x, float y, float z)
