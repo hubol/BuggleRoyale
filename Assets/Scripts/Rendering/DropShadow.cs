@@ -13,14 +13,19 @@ public class DropShadow : MonoBehaviour
 	public float bias = 0.0f;
 	public IsoRender isoRender;
 	public TerrainGrid terrainGrid;
-	
+	public bool autoCast = true;   //should we auto-cast a shadow from the target transform?  If not, wait for ShadowCast() calls
 
 
 
 	void Update()
 	{
-		Vector3 pos = targetTransform.position;   //world space
-		
+		if(autoCast)
+			ShadowCast( targetTransform.position );   //world space
+	}
+
+
+	public void ShadowCast( Vector3 pos )
+	{
 		int x = (int)Mathf.Floor(pos.x);
 		int y = (int)Mathf.Floor(pos.y);
 		int z = (int)Mathf.Floor(pos.z);
@@ -35,12 +40,10 @@ public class DropShadow : MonoBehaviour
 				if(y<terrainGrid.ysize && terrainGrid.grid[x,y,z] != TerrainGrid.GridCell.NONE)
 				{
 					//found non-empty cell; place ourselves on top and get outta here
-					isoRender.RenderFreeObject(shadowSprite, new Vector3(targetTransform.position.x, y+1, targetTransform.position.z), bias);   //use world space
+					isoRender.RenderFreeObject(shadowSprite, new Vector3(pos.x, y+1, pos.z), bias);   //use world space
 					break;
 				}
 		}
-		
-				
 	}
 
 
