@@ -36,6 +36,7 @@ public class MillipedeBodyRender : MonoBehaviour
 		{ 
 			Vector3 pos = transform.TransformPoint(millipedeBody.segmentPositions[i]);
 			int frame = (int)(((animTime + segmentAnimOffset*i)%1) * bodySegmentAnim.Length);
+			frame = Mathf.Clamp(frame, 0, bodySegmentAnim.Length);
 			isoRender.RenderFreeObject(bodySegmentAnim[frame], pos, bodySegmentBias);
 			if(dropShadow)
 				dropShadow.ShadowCast(pos);

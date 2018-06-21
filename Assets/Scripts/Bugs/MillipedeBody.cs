@@ -7,8 +7,6 @@ using UnityEngine;
 //All rights reserved.
 
 
-using UnityEngine;
-using System.Collections.Generic;
 
 
 //Logic to drive the positioning of body segments along the path that this GameObject takes.

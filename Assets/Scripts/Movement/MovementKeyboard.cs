@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(InputReciever))]
 public class MovementKeyboard : MovementBase {
 	// Key names
-	public string right, up, left, down;
+	//public string right, up, left, down;
 	// Maximum speed
 	public float maxSpeed;
 	// Acceleration and deceleration
@@ -19,18 +20,26 @@ public class MovementKeyboard : MovementBase {
 	protected virtual Vector3 upVec {get{return new Vector3(0, 0, maxSpeed);}}
 	protected virtual Vector3 downVec {get{return new Vector3(0, 0, -maxSpeed);}}
 
+	InputReciever inputReciever;   //keyboard input gets piped through here now
+
+	public override void Start ()
+	{
+		base.Start();
+		inputReciever = GetComponent<InputReciever>();
+	}
+
 	// Update is called once per frame
 	public virtual void FixedUpdate () {
 		// Compute the desired speed from key input
 		{
 			Vector3 spd = new Vector3(0, 0, 0);
-			if (Input.GetKey(right))
+			if (inputReciever.right)
 				spd = rightVec;
-			else if (Input.GetKey(up))
+			else if (inputReciever.up)
 				spd = upVec;
-			else if (Input.GetKey(left))
+			else if (inputReciever.left)
 				spd = leftVec;
-			else if (Input.GetKey(down))
+			else if (inputReciever.down)
 				spd = downVec;
 			// Apply friction to speed
 			speed = Vector3.MoveTowards(speed, spd, friction);
