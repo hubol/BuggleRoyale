@@ -6,7 +6,7 @@ using UnityEngine;
 //Spins object around y axis
 public class SimpleSpin : MonoBehaviour
 {
-	public float spinSpeed = 0.1f;
+	public float spinSpeed = 360.0f;
 
 	Quaternion baseRot;
 

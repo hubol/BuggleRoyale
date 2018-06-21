@@ -20,6 +20,7 @@ public class MovementCollider : MonoBehaviour {
 
 	// Move this Collider by speed until it collides with any of the given GridCells
 	public bool MoveByUntil(Vector3 speed, params TerrainGrid.GridCell[] types){
+		/*
 		if (speed.magnitude > 1){ // e.g. bigger than a cell
 			int increments = 1 + (int)speed.magnitude;
 			float s = 1f / increments;
@@ -38,8 +39,105 @@ public class MovementCollider : MonoBehaviour {
 		else if (CollidesAt(transform.localPosition + speed, types)){
 			return true;
 		}
+
 		transform.Translate(speed);
 		return false;
+		*/
+
+		Vector3 curpos = transform.localPosition;
+		bool collided = false;
+
+		//Move by each axis individually, inching along at Consts.moveIncrement
+		//Add Z
+		while(speed.x > 0)
+		{
+			float add = Mathf.Min(speed.x, Consts.i.moveIncrement);   //amount to subtract
+			curpos.x += add;
+			speed.x -= add;
+			if( CollidesAt(curpos, types ) )
+			{
+				curpos.x -= add;
+				collided = true;
+				break;
+			}
+		}
+
+
+		//Sub Z
+		while(speed.x < 0)
+		{
+			float add = Mathf.Max(speed.x, -Consts.i.moveIncrement);   //amount to subtract
+			curpos.x += add;
+			speed.x -= add;
+			if( CollidesAt(curpos, types ) )
+			{
+				curpos.x -= add;
+				collided = true;
+				break;
+			}
+		}
+
+		//Add Z
+		while(speed.z > 0)
+		{
+			float add = Mathf.Min(speed.z, Consts.i.moveIncrement);   //amount to subtract
+			curpos.z += add;
+			speed.z -= add;
+			if( CollidesAt(curpos, types ) )
+			{
+				curpos.z -= add;
+				collided = true;
+				break;
+			}
+		}
+
+
+		//Sub Z
+		while(speed.z < 0)
+		{
+			float add = Mathf.Max(speed.z, -Consts.i.moveIncrement);   //amount to subtract
+			curpos.z += add;
+			speed.z -= add;
+			if( CollidesAt(curpos, types ) )
+			{
+				curpos.z -= add;
+				collided = true;
+				break;
+			}
+		}
+
+		//Add Y
+		while(speed.y > 0)
+		{
+			float add = Mathf.Min(speed.y, Consts.i.moveIncrement);   //amount to subtract
+			curpos.y += add;
+			speed.y -= add;
+			if( CollidesAt(curpos, types ) )
+			{
+				curpos.y -= add;
+				collided = true;
+				break;
+			}
+		}
+
+
+		//Sub Y
+		while(speed.y < 0)
+		{
+			float add = Mathf.Max(speed.y, -Consts.i.moveIncrement);   //amount to add to position
+			curpos.y += add;
+			speed.y -= add;
+			if( CollidesAt(curpos, types ) )
+			{
+				curpos.y -= add;
+				collided = true;
+				break;
+			}
+		}
+
+		transform.localPosition = curpos;
+
+		return collided;
 	}
 
 	// Tests whether this Collider has a collision with the given type of GridCell at the given location
