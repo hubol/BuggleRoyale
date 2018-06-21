@@ -14,23 +14,32 @@ public class MovementKeyboard : MovementBase {
 	[HideInInspector]
 	public Vector3 speed = new Vector3();
 
+	protected virtual Vector3 rightVec {get{return new Vector3(maxSpeed, 0, 0);}}
+	protected virtual Vector3 leftVec {get{return new Vector3(-maxSpeed, 0, 0);}}
+	protected virtual Vector3 upVec {get{return new Vector3(0, 0, maxSpeed);}}
+	protected virtual Vector3 downVec {get{return new Vector3(0, 0, -maxSpeed);}}
+
 	// Update is called once per frame
-	void FixedUpdate () {
+	public virtual void FixedUpdate () {
 		// Compute the desired speed from key input
 		{
 			Vector3 spd = new Vector3(0, 0, 0);
 			if (Input.GetKey(right))
-				spd = new Vector3(maxSpeed, 0, 0);
+				spd = rightVec;
 			else if (Input.GetKey(up))
-				spd = new Vector3(0, 0, maxSpeed);
+				spd = upVec;
 			else if (Input.GetKey(left))
-				spd = new Vector3(-maxSpeed, 0, 0);
+				spd = leftVec;
 			else if (Input.GetKey(down))
-				spd = new Vector3(0, 0, -maxSpeed);
+				spd = downVec;
 			// Apply friction to speed
 			speed = Vector3.MoveTowards(speed, spd, friction);
 		}
 		// Incrementally move
-		mCollider.MoveByUntil(speed, mCollider.impassableCells);
+		if (speed.magnitude > 0 && mCollider.MoveByUntil(speed, mCollider.impassableCells)){
+			OnMoveFailed();
+		}
 	}
+
+	public virtual void OnMoveFailed(){ }
 }

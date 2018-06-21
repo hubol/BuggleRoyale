@@ -7,17 +7,17 @@ public class MovementGravity : MovementBase {
 	public float gravity = -1;
 	private Vector3 gravityVector, testGravityVector;
 
-
 	bool wasGrounded = false;
+
+	[HideInInspector]
+	public bool applyGravity = true;
 
 	// Use this for initialization
 	public override void Start () {
+		applyGravity = true;
 		base.Start();
 		gravityVector = new Vector3(0,gravity,0);
 		testGravityVector = new Vector3(0, Mathf.Sign(gravity)*Consts.i.moveIncrement, 0);
-		// First grounded event
-		if (mCollider.CollidesAt(transform.localPosition + testGravityVector, mCollider.impassableCells))
-			OnGrounded(testGravityVector);
 	}
 
 	// The working internal speed
@@ -27,38 +27,28 @@ public class MovementGravity : MovementBase {
 	}
 
 	// Update is called once per frame
-	public virtual void FixedUpdate () {
-		if (mCollider.CollidesAt(transform.localPosition + testGravityVector, mCollider.impassableCells))
-		{
-			if(!wasGrounded)
-				OnGrounded(speed);
-			wasGrounded = true;
-		}
-		else
-		{ 
-			speed += gravityVector; // accumulate gravity
-			wasGrounded = false;
-		}
-
-		mCollider.MoveByUntil(speed, mCollider.impassableCells);
-		/*
-		// If we have vertical speed
-		if (speed.magnitude > 0){
-			if (mCollider.MoveByUntil(speed, mCollider.impassableCells))
-	    		OnGrounded(speed);
+	public void FixedUpdate () {
+		if (applyGravity){
+			if (mCollider.CollidesAt(transform.localPosition + testGravityVector, mCollider.impassableCells))
+			{
+				if(!wasGrounded)
+					OnGrounded(speed);
+				wasGrounded = true;
+			}
 			else
+			{ 
 				speed += gravityVector; // accumulate gravity
+				wasGrounded = false;
+			}
+			mCollider.MoveByUntil(speed, mCollider.impassableCells);
+			FixedUpdate2();
 		}
-		// Otherwise acquire vertical speed
-		else if (!mCollider.CollidesAt(transform.localPosition + testGravityVector, mCollider.impassableCells)){
-			speed += gravityVector;
-		}
-		*/
 	}
+
+	protected virtual void FixedUpdate2(){ }
 
 	// Deliver grounded event.
 	protected virtual void OnGrounded(Vector3 direction) {
-		this.
 		speed.Set(0,0,0);
 	}
 }

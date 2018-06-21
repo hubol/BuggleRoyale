@@ -9,8 +9,7 @@ public class MovementJump : MovementGravity {
 	public float jumpSpeed;
 
 	// Update is called once per frame
-	public override void FixedUpdate () {
-		base.FixedUpdate();
+	protected override void FixedUpdate2 () {
 		// Jump events
 		if (canJump && Input.GetKey(key)){
 			SetYSpeed(jumpSpeed);

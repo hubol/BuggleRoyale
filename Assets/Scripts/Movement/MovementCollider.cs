@@ -11,7 +11,7 @@ public class MovementCollider : MonoBehaviour {
 	// Get contents by rounding floats. Returns NONE if x,y, or z is out of bounds [0, size)
 	public TerrainGrid.GridCell GetGridCell(float x, float y, float z) {
 		if (x < 0 || x >= grid.xsize || y < 0 || y >= grid.ysize || z < 0 || z >= grid.zsize)
-			return TerrainGrid.GridCell.NONE;
+			return TerrainGrid.GridCell.OOB;
 		return grid.grid[(int)x, (int)y, (int)z];
 	}
 
@@ -20,30 +20,6 @@ public class MovementCollider : MonoBehaviour {
 
 	// Move this Collider by speed until it collides with any of the given GridCells
 	public bool MoveByUntil(Vector3 speed, params TerrainGrid.GridCell[] types){
-		/*
-		if (speed.magnitude > 1){ // e.g. bigger than a cell
-			int increments = 1 + (int)speed.magnitude;
-			float s = 1f / increments;
-
-			for (int i=0; i<increments; i++){
-				Vector3 fu = new Vector3(s * speed.x * (i+1), s * speed.y * (i+1), s * speed.z * (i+1)); // stupid
-				if (CollidesAt(transform.localPosition + fu, types)){
-					return true;
-				}
-				else
-					transform.Translate(fu);
-			}
-			return false;
-		}
-		// the movement is not bigger than a cell
-		else if (CollidesAt(transform.localPosition + speed, types)){
-			return true;
-		}
-
-		transform.Translate(speed);
-		return false;
-		*/
-
 		Vector3 curpos = transform.localPosition;
 		bool collided = false;
 
@@ -138,6 +114,11 @@ public class MovementCollider : MonoBehaviour {
 		transform.localPosition = curpos;
 
 		return collided;
+	}
+
+	// Convenience function
+	public bool CollidesAtRelative(float x, float y, float z, params TerrainGrid.GridCell[] types){
+		return CollidesAt(transform.localPosition + new Vector3(x,y,z), types);
 	}
 
 	// Tests whether this Collider has a collision with the given type of GridCell at the given location

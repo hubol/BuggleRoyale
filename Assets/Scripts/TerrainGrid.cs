@@ -10,7 +10,8 @@ public class TerrainGrid : MonoBehaviour
 	public enum GridCell
 	{
 		NONE=0,
-		BASIC_BLOCK
+		BASIC_BLOCK,
+		OOB
 	};
 
 
@@ -39,7 +40,7 @@ public class TerrainGrid : MonoBehaviour
 		for(int x=0; x<xsize; x++)
 			for(int y=0; y<ysize; y++)
 				for(int z=0; z<zsize; z++)
-					if( y == 0 )
+					if(y == 0 || (x == 0 && z==0 && z <zsize-1))
 						grid[x,y,z] = GridCell.BASIC_BLOCK;
 					else
 						grid[x,y,z] = GridCell.NONE;
