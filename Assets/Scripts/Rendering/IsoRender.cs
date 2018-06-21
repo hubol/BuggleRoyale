@@ -15,8 +15,15 @@ public class IsoRender : MonoBehaviour {
 
 	public int spritePoolInitial = 1;   //number of sprites to pool, initially
 
+	//You can scale the amounts to match the tile size on the sprites.
+	public float xscale = 1.0f;
+	public float yscale = 1.0f;
+	public float zscale = 1.0f;
+
 	SpriteRenderer[] gridSprites;    //pooled grid objects
 	int sprCount = 0;   //count grid sprites so we can pull them out of the pool
+
+
 
 
 	void Start()
@@ -32,17 +39,22 @@ public class IsoRender : MonoBehaviour {
 	{
 		//Clear all sprites...
 		sprCount = 0;
+		for(int i=0; i<gridSprites.Length; i++)
+			gridSprites[i].enabled = false;
 
 		//Draw terrain grid!
 		for( int x=0; x<terrainGrid.xsize; x++)
 			for( int y=0; y<terrainGrid.ysize; y++)
 				for( int z=0; z<terrainGrid.zsize; z++)
 				{
+					//Since x,y,z is actually the lower-left-back corner of an object, we should render it with 0.5 added to it,
+					//so we place the centered sprite at the grid cell center
+					float xfloat = (x+0.5f)*xscale, yfloat = (y+0.5f)*yscale, zfloat = (z+0.5f)*zscale;
 					switch( terrainGrid.grid[x,y,z] )
 					{
 						default: break;
 						case TerrainGrid.GridCell.BASIC_BLOCK:
-							UnpoolSprite(basicBlockSprite, x, y, z);
+							UnpoolSprite(basicBlockSprite, xfloat, yfloat, zfloat);
 							break;
 					}
 				}
@@ -81,6 +93,7 @@ public class IsoRender : MonoBehaviour {
 		}
 
 		SpriteRenderer myspr = gridSprites[sprCount];
+		myspr.enabled = true;
 		myspr.sprite = spr;
 		myspr.transform.localPosition = new Vector3(x,y,z);
 
