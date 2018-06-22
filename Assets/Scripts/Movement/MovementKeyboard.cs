@@ -20,7 +20,7 @@ public class MovementKeyboard : MovementBase {
 	protected virtual Vector3 upVec {get{return new Vector3(0, 0, maxSpeed);}}
 	protected virtual Vector3 downVec {get{return new Vector3(0, 0, -maxSpeed);}}
 
-	InputReciever inputReciever;   //keyboard input gets piped through here now
+	protected InputReciever inputReciever;   //keyboard input gets piped through here now
 
 	public override void Start ()
 	{
