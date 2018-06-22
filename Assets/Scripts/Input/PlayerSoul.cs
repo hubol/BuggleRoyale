@@ -7,7 +7,7 @@ using UnityEngine;
 //sending that direction to that bug so it keeps moving.
 public class PlayerSoul : MonoBehaviour
 {
-	public InputReciever[] bugs;
+	public InputReceiver[] bugs;
 	public int possessed = 0;   //which one of the bugs in our list are we possessing?
 	public string right, up, left, down, action1, action2, action3, bugswitch;
 
@@ -18,7 +18,7 @@ public class PlayerSoul : MonoBehaviour
 		//NOTE: to hold inputs, we just simply don't reset the inputs on the bug we switch away from!
 
 		//Reset inputs on possessed bug
-		InputReciever bp = bugs[possessed];
+		InputReceiver bp = bugs[possessed];
 		bp.left = bp.right = bp.down = bp.up = bp.action1 = bp.action2 = bp.action3 = false;
 
 

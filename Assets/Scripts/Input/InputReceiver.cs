@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Recieves input from PlayerSoul and relays it to movements
-public class InputReciever : MonoBehaviour
+public class InputReceiver : MonoBehaviour
 {
 	public bool[] actions = new bool[]{false,false,false};
 	public bool action1{get{return actions[0];} set{actions[0]=value;}}

@@ -31,10 +31,10 @@ public class MovementFly : MovementKeyboard {
 		// Compute ySpeed based on input
 		{
 			float ySpeedTarget = 0;
-			if (inputReciever.actions[ascend]){
+			if (inputReceiver.actions[ascend]){
 				ySpeedTarget = ascendSpeed;
 			}
-			else if (inputReciever.actions[descend]){
+			else if (inputReceiver.actions[descend]){
 				ySpeedTarget = descendSpeed;
 			}
 			// interpolating ySpeed towards ySpeedTarget

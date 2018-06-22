@@ -50,8 +50,15 @@ public class MovementGravity : MovementBase {
 
 	protected virtual void FixedUpdate2(){ }
 
-	// Deliver grounded event.
-	protected virtual void OnGrounded(Vector3 direction) {
+	// Deliver grounded events.
+	private void OnGrounded(Vector3 direction) {
+		foreach (GroundedListener gl in this.GetComponents<GroundedListener>()){
+			gl.OnGrounded(direction);
+		}
+		OnGrounded2(direction);
+	}
+
+	protected virtual void OnGrounded2(Vector3 direction){
 		speed.Set(0,0,0);
 	}
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MovementCollider))]
-[RequireComponent(typeof(InputReciever))]
+[RequireComponent(typeof(InputReceiver))]
 public abstract class PickerUpper<T> : MonoBehaviour where T : MonoBehaviour {
 	public bool autoPickup = true;
 	[Range(0,2)]
@@ -14,10 +14,10 @@ public abstract class PickerUpper<T> : MonoBehaviour where T : MonoBehaviour {
 	private T held;
 
 	protected MovementCollider mCollider;
-	protected InputReciever receiver;
+	protected InputReceiver receiver;
 	void Start(){
 		mCollider = GetComponent<MovementCollider>();
-		receiver = GetComponent<InputReciever>();
+		receiver = GetComponent<InputReceiver>();
 	}
 
 	private T dropped;
@@ -79,8 +79,7 @@ public abstract class PickerUpper<T> : MonoBehaviour where T : MonoBehaviour {
 		MovementBase mb = t.gameObject.GetComponent<MovementBase>();
 		if (mb != null)
 			mb.enabled = setEnabled;
-		MovementCollider mc = t.gameObject.GetComponent<MovementCollider>();
-		if (mc != null)
+		foreach(MovementCollider mc in t.gameObject.GetComponents<MovementCollider>())
 			mc.enabled = setEnabled;
 	}
 
