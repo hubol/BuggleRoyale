@@ -18,10 +18,12 @@ public class IsoRender : MonoBehaviour {
 
 	public int spritePoolInitial = 1;   //number of sprites to pool, initially
 
-	//You can scale the amounts to match the tile size on the sprites.
+	//You can scale the amounts to match the tile size on the sprites.  (not advised if any 3D objects are involved)
 	public float xscale = 1.0f;
 	public float yscale = 1.0f;
 	public float zscale = 1.0f;
+
+	public float terrainBias = -0.5f;
 
 	SpriteRenderer[] gridSprites;    //pooled grid objects
 	int sprCount = 0;   //count grid sprites so we can pull them out of the pool
@@ -66,6 +68,11 @@ public class IsoRender : MonoBehaviour {
 							
 							if( x != z)   //leave blocks whte in the middle
 								spr.color = heightGradient.Evaluate(height_normalized);
+
+							//apply bias
+							Vector3 spr_pos = spr.transform.localPosition;
+							spr_pos += mainCamera.transform.TransformDirection(Vector3.forward) * -terrainBias;
+							spr.transform.localPosition = spr_pos;
 							break;
 					}
 				}

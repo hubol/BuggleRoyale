@@ -11,6 +11,8 @@ public class PlayerSoul : MonoBehaviour
 	public int possessed = 0;   //which one of the bugs in our list are we possessing?
 	public string right, up, left, down, action1, action2, action3, bugswitch;
 
+	public bool wasSwitchDown = false;
+
 	private void FixedUpdate()
 	{
 		//NOTE: to hold inputs, we just simply don't reset the inputs on the bug we switch away from!
@@ -37,14 +39,21 @@ public class PlayerSoul : MonoBehaviour
 			bp.action3 = true;
 
 		//If they switch, leave directional inputs turned on, but zero action buttons
-		if(Input.GetKeyDown(bugswitch))
+		if(Input.GetKey(bugswitch))
 		{
-			bp.action1 = false;
-			bp.action2 = false;
-			bp.action3 = false;
+			if(!wasSwitchDown)
+			{ 
+				wasSwitchDown = true;  //only switch once on press
 
-			possessed = (possessed+1) % bugs.Length;
+				bp.action1 = false;
+				bp.action2 = false;
+				bp.action3 = false;
+
+				possessed = (possessed+1) % bugs.Length;
+			}
 		}
+		else
+			wasSwitchDown = false;
 	}
 
 

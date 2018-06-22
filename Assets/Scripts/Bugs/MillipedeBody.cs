@@ -18,6 +18,8 @@ public class MillipedeBody : MonoBehaviour
 	public float bodySegmentDistance = 1.0f;  //this will be counted off in the positional buffer to position each segment
 	public Vector3[] segmentPositions;
 
+	public bool initSegments = true;   //set to false if you already set them up in the inspector
+	public bool flipXAndZAtStart = false;   //hack to get opposite millipede to be symmetrical
 
 
 	//Historical record of transform.positions.
@@ -27,7 +29,34 @@ public class MillipedeBody : MonoBehaviour
 
 	private void Awake()
 	{
-		segmentPositions = new Vector3[numBodySegments];
+		if(initSegments)
+			segmentPositions = new Vector3[numBodySegments];
+		else
+			//populate posBuffer with segmentPositions
+			if(!flipXAndZAtStart)
+				for(int i=0; i<segmentPositions.Length; i++)
+					posBuffer.AddLast(transform.TransformPoint(segmentPositions[i]));
+			else
+				for(int i=0; i<segmentPositions.Length; i++)
+				{
+					Vector3 pos =  transform.TransformPoint(segmentPositions[i]);
+					float temp = pos.z;
+					pos.z = pos.x;
+					pos.x = temp;
+
+					posBuffer.AddLast(pos);
+				}
+
+		if(flipXAndZAtStart)
+		{
+			//flip our position, too
+			Vector3 pos = transform.position;
+			float temp = pos.z;
+			pos.z = pos.x;
+			pos.x = temp;
+
+			transform.position = pos;
+		}
 	}
 
 

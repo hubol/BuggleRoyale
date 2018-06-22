@@ -7,7 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(MillipedeBody))]
 public class MillipedeBodyRender : MonoBehaviour
 {
-	public IsoRender isoRender;
 	public Sprite[] bodySegmentAnim;
 	public float bodySegmentBias = 0.0f;
 	public DropShadow dropShadow;
@@ -37,7 +36,7 @@ public class MillipedeBodyRender : MonoBehaviour
 			Vector3 pos = transform.TransformPoint(millipedeBody.segmentPositions[i]);
 			int frame = (int)(((animTime + segmentAnimOffset*i)%1) * bodySegmentAnim.Length);
 			frame = Mathf.Clamp(frame, 0, bodySegmentAnim.Length);
-			isoRender.RenderFreeObject(bodySegmentAnim[frame], pos, bodySegmentBias, Color.white);
+			IsoRender.i.RenderFreeObject(bodySegmentAnim[frame], pos, bodySegmentBias, Color.white);
 			if(dropShadow)
 				dropShadow.ShadowCast(pos);
 		}
