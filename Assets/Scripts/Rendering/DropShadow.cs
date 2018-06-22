@@ -40,7 +40,7 @@ public class DropShadow : MonoBehaviour
 				if(y<terrainGrid.ysize && terrainGrid.grid[x,y,z] != TerrainGrid.GridCell.NONE)
 				{
 					//found non-empty cell; place ourselves on top and get outta here
-					isoRender.RenderFreeObject(shadowSprite, new Vector3(pos.x, y+1, pos.z), bias);   //use world space
+					isoRender.RenderFreeObject(shadowSprite, new Vector3(pos.x, y+1, pos.z), bias, Color.white);   //use world space
 					break;
 				}
 		}

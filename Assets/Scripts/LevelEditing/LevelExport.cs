@@ -58,7 +58,7 @@ public class LevelExport : MonoBehaviour
 		}
 
 
-		int _DEBUG_CATCH = 0;
+		//int _DEBUG_CATCH = 0;
 	}
 
 

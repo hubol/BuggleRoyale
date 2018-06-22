@@ -8,6 +8,7 @@ using UnityEngine;
 //NOTE: it's necessary that IsoRender's Update occur before other objects which call its render,
 //so it can clear its pool.
 public class IsoRender : MonoBehaviour {
+	public Gradient heightGradient;   //colors applies to terrain based on y
 	public TerrainGrid terrainGrid;   //link to terrain grid
 	public Sprite basicBlockSprite;   //sprite to use for BASIC_BLOCK type
 	public GameObject spritePrefab;   //prefab to use for rendered sprites
@@ -54,7 +55,13 @@ public class IsoRender : MonoBehaviour {
 					{
 						default: break;
 						case TerrainGrid.GridCell.BASIC_BLOCK:
-							UnpoolSprite(basicBlockSprite, xfloat, yfloat, zfloat);
+							SpriteRenderer spr = UnpoolSprite(basicBlockSprite, xfloat, yfloat, zfloat);
+							float height_normalized = ((float)y) / terrainGrid.ysize;   //get height so we can look up color
+							if( x > z )  //flip color on opposite side of play area
+								height_normalized = 1 - height_normalized;
+							
+							if( x != z)   //leave blocks whte in the middle
+								spr.color = heightGradient.Evaluate(height_normalized);
 							break;
 					}
 				}
@@ -65,10 +72,10 @@ public class IsoRender : MonoBehaviour {
 	//Renders a free (non-grid) object in the world.
 	//You can use a positive "bias" value to nudge the object towards
 	//the camera.
-	public void RenderFreeObject(Sprite sprite, Vector3 pos, float bias)
+	public void RenderFreeObject(Sprite sprite, Vector3 pos, float bias, Color color)
 	{
 		SpriteRenderer spr = UnpoolSprite(sprite, pos.x, pos.y, pos.z);
-
+		spr.color = color;
 		//now we need to scootch this towards the camera using bias
 		Vector3 spr_pos = spr.transform.localPosition;
 		spr_pos += mainCamera.transform.TransformDirection(Vector3.forward) * -bias;

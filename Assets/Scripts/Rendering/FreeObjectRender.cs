@@ -12,7 +12,7 @@ public class FreeObjectRender : MonoBehaviour
 
 	void Update()
 	{
-		isoRender.RenderFreeObject(sprite, transform.position, bias);  //use world position!
+		isoRender.RenderFreeObject(sprite, transform.position, bias, Color.white);  //use world position!
 	}
 
 }
