@@ -18,16 +18,17 @@ public class MovementCollider : MonoBehaviour {
 		return grid.grid[(int)x, (int)y, (int)z];
 	}
 
-	private float minX {get{return transform.localPosition.x - radius;}}
-	private float maxX {get{return transform.localPosition.x + radius;}}
-	private float minY {get{return transform.localPosition.y - radius;}}
-	private float maxY {get{return transform.localPosition.y + radius;}}
-	private float minZ {get{return transform.localPosition.z - radius;}}
-	private float maxZ {get{return transform.localPosition.z + radius;}}
+	public float minX {get{return transform.localPosition.x - radius;}}
+	public float maxX {get{return transform.localPosition.x + radius;}}
+	public float minY {get{return transform.localPosition.y - radius;}}
+	public float maxY {get{return transform.localPosition.y + radius;}}
+	public float minZ {get{return transform.localPosition.z - radius;}}
+	public float maxZ {get{return transform.localPosition.z + radius;}}
 
 	// Whether there is a union between these two MovementColliders
 	public bool HasUnion(MovementCollider a){
-		return 	(a.minX < maxX && a.maxX > minX) &&
+		return 	enabled &&
+				(a.minX < maxX && a.maxX > minX) &&
 				(a.minY < maxY && a.maxY > minY) &&
 				(a.minZ < maxZ && a.maxZ > minZ);
 	}
@@ -157,7 +158,13 @@ public class MovementCollider : MonoBehaviour {
 	}
 
 	// Use this for initialization
-	void Start () { }
+	void Start () {
+		ColliderManager.i.colliders.Add(this);
+	}
+
+	void OnDestroy() {
+		ColliderManager.i.colliders.Remove(this);
+	}
 	
 	// Update is called once per frame
 	void Update () { }
