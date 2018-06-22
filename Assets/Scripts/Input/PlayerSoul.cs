@@ -17,7 +17,7 @@ public class PlayerSoul : MonoBehaviour
 
 		//Reset inputs on possessed bug
 		InputReciever bp = bugs[possessed];
-		bp.left = bp.right = bp.down = bp.up = bp.action1 = bp.action2 = false;
+		bp.left = bp.right = bp.down = bp.up = bp.action1 = bp.action2 = bp.action3 = false;
 
 
 		//Send messages to possessed bug
