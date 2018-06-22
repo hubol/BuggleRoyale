@@ -40,13 +40,14 @@ public class TerrainGrid : MonoBehaviour
 		for(int x=0; x<xsize; x++)
 			for(int y=0; y<ysize; y++)
 				for(int z=0; z<zsize; z++)
-					if(y == 0 || (x == 0 && z==0 && z <zsize-1))
-						grid[x,y,z] = GridCell.BASIC_BLOCK;
-					else
+					//if(y == 0 || (x == 0 && z==0 && z <zsize-1))
+					//	grid[x,y,z] = GridCell.BASIC_BLOCK;
+					//else
 						grid[x,y,z] = GridCell.NONE;
 
 
 		//temp: just fill in some bricks on the outer edge
+		/*
 		grid[0, 1, 0] = GridCell.BASIC_BLOCK;
 		grid[1, 1, 0] = GridCell.BASIC_BLOCK;
 		grid[2, 1, 0] = GridCell.BASIC_BLOCK;
@@ -55,8 +56,16 @@ public class TerrainGrid : MonoBehaviour
 		grid[1, 1, 1] = GridCell.BASIC_BLOCK;
 		grid[2, 1, 1] = GridCell.BASIC_BLOCK;
 		grid[3, 1, 1] = GridCell.BASIC_BLOCK;
-	}
 
+
+		for(int x = 4; x <= 6; x++)
+			for(int z = 4; z<=6; z++)
+				for(int y = 0; y<4; y++)
+					grid[x,y,z] = GridCell.BASIC_BLOCK;
+
+	*/
+	}
+	
 
 	private void Start()
 	{
