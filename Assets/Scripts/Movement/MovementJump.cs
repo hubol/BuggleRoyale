@@ -4,13 +4,13 @@ using UnityEngine;
 
 [RequireComponent(typeof(InputReciever))]
 public class MovementJump : MovementGravity {
-	// What key to jump with
-	public string key;
+	// Key
+	[Range(0,2)]
+	public int jump;
 	// Jump speed
 	public float jumpSpeed;
 
 	InputReciever inputReciever;
-
 
 	public override void Start()
 	{
@@ -21,7 +21,7 @@ public class MovementJump : MovementGravity {
 	// Update is called once per frame
 	protected override void FixedUpdate2 () {
 		// Jump events
-		if (canJump && inputReciever.action1){
+		if (canJump && inputReciever.actions[jump]){
 			SetYSpeed(jumpSpeed);
 			canJump = false;
 		}

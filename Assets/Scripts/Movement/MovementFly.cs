@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovementFly : MovementKeyboard {
+	// Ascend key
+	[Range(0,2)]
+	public int ascend;
+	// Descend key
+	[Range(0,2)]
+	public int descend;
+
 	public float ascendSpeed = 0.4f;
 	public float descendSpeed = -0.6f;
 	public float flightFriction = 0.1f;
@@ -24,10 +31,10 @@ public class MovementFly : MovementKeyboard {
 		// Compute ySpeed based on input
 		{
 			float ySpeedTarget = 0;
-			if (inputReciever.action2){
+			if (inputReciever.actions[ascend]){
 				ySpeedTarget = ascendSpeed;
 			}
-			else if (inputReciever.action3){
+			else if (inputReciever.actions[descend]){
 				ySpeedTarget = descendSpeed;
 			}
 			// interpolating ySpeed towards ySpeedTarget
