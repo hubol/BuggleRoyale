@@ -6,8 +6,10 @@ using UnityEngine;
 public class MovementKeyboard : MovementBase {
 	// Key names
 	//public string right, up, left, down;
+	public float keySpeed;
 	// Maximum speed
-	public float maxSpeed;
+	[HideInInspector]
+	public virtual float maxSpeed {get{return keySpeed;}}
 	// Acceleration and deceleration
 	public float friction;
 

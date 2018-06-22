@@ -7,6 +7,15 @@ public class MovementFly : MovementKeyboard {
 	public float descendSpeed = -0.6f;
 	public float flightFriction = 0.1f;
 
+	// Multiply keyboard speed by scalar when in air
+	public float flightSpeedScalar = 0.5f;
+	// Speed is affected by flight
+	public override float maxSpeed {get{
+			if (mCollider.CollidesAtRelative(0,-Consts.i.moveIncrement,0,mCollider.impassableCells))
+			    return base.maxSpeed;
+			return base.maxSpeed * flightSpeedScalar;
+		}}
+
 	private float ySpeed = 0;
 
 	// Update is called once per frame
