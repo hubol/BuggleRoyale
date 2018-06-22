@@ -13,8 +13,8 @@ public abstract class PickerUpper<T> : MonoBehaviour where T : MonoBehaviour {
 
 	private T held;
 
-	private MovementCollider mCollider;
-	private InputReciever receiver;
+	protected MovementCollider mCollider;
+	protected InputReciever receiver;
 	void Start(){
 		mCollider = GetComponent<MovementCollider>();
 		receiver = GetComponent<InputReciever>();
@@ -32,17 +32,21 @@ public abstract class PickerUpper<T> : MonoBehaviour where T : MonoBehaviour {
 					// If we have a union
 					if (mc.HasUnion(mCollider)){
 						T t = mc.GetComponent<T>();
-						if (t == dropped)
-							nullDropped = false;
-						// If the given MovementCollider has a T Component, update held
-						else if (t != null){
-							dropped = null;
-							held = t;
-							OnHeldChanged(held, false);
-							return;
+						if (t != null){
+							// We just threw this away, we don't want it
+							if (t == dropped)
+								nullDropped = false;
+							// If the given MovementCollider has a T Component, update held
+							else if (CanPickUp(t)){
+								dropped = null;
+								held = t;
+								OnHeldChanged(held, false);
+								return;
+							}
 						}
 					}
 				}
+				// We didn't have a union with anyone
 				if (nullDropped)
 					dropped = null;
 			}
@@ -53,13 +57,24 @@ public abstract class PickerUpper<T> : MonoBehaviour where T : MonoBehaviour {
 			OnUpdateWithHeld(held);
 			// Drop it
 			if (receiver.actions[drop]){
-				OnHeldChanged(held, true);
-				dropped = held;
-				held = null;
+				ForceDrop();
 			}
 		}
 	}
 
+	// Determine eligibility of t
+	protected virtual bool CanPickUp(T t){ return true; }
+
+	// Drop the held Object
+	public void ForceDrop(){
+		if (held != null){
+			OnHeldChanged(held, true);
+			dropped = held;
+			held = null;
+		}
+	}
+
+	// Pickup / Drop events
 	protected virtual void OnHeldChanged(T t, bool setEnabled){
 		MovementBase mb = t.gameObject.GetComponent<MovementBase>();
 		if (mb != null)
@@ -69,6 +84,7 @@ public abstract class PickerUpper<T> : MonoBehaviour where T : MonoBehaviour {
 			mc.enabled = setEnabled;
 	}
 
+	// Called every FixedUpdate to "carry" the object with you
 	protected virtual void OnUpdateWithHeld(T t){
 		t.transform.localPosition = new Vector3(transform.localPosition.x, mCollider.maxY, transform.localPosition.z);
 	}
