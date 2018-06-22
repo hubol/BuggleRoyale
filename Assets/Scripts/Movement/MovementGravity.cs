@@ -25,6 +25,9 @@ public class MovementGravity : MovementBase {
 	protected void SetYSpeed(float y){
 		speed.y = y;
 	}
+	protected float GetYSpeed(){
+		return speed.y;
+	}
 
 	// Update is called once per frame
 	public void FixedUpdate () {
