@@ -9,7 +9,7 @@ public class PlayerSoul : MonoBehaviour
 {
 	public InputReciever[] bugs;
 	public int possessed = 0;   //which one of the bugs in our list are we possessing?
-	public string right, up, left, down, action1, action2, bugswitch;
+	public string right, up, left, down, action1, action2, action3, bugswitch;
 
 	private void FixedUpdate()
 	{
@@ -33,12 +33,16 @@ public class PlayerSoul : MonoBehaviour
 			bp.action1 = true;
 		if(Input.GetKey(action2))
 			bp.action2 = true;
+		if(Input.GetKey(action3))
+			bp.action3 = true;
 
 		//If they switch, leave directional inputs turned on, but zero action buttons
 		if(Input.GetKeyDown(bugswitch))
 		{
 			bp.action1 = false;
 			bp.action2 = false;
+			bp.action3 = false;
+
 			possessed = (possessed+1) % bugs.Length;
 		}
 	}
