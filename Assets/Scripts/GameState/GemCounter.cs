@@ -14,7 +14,6 @@ public class GemCounter : MonoBehaviour
 		WINNER
 	};
 	public GameState state = GameState.GAMEPLAY;
-	bool rightWon = false;     //otherwise, left won
 
 	public float timeLeft=300.0f;
 	public float showWinnerTime = 20.0f;

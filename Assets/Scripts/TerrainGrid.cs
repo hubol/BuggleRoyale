@@ -7,6 +7,8 @@ using UnityEngine;
 //This holds the grid-based isometric game world.
 public class TerrainGrid : MonoBehaviour
 {
+	public static TerrainGrid i;
+
 	public enum GridCell
 	{
 		NONE=0,
@@ -34,6 +36,8 @@ public class TerrainGrid : MonoBehaviour
 
 	void Awake()
 	{
+		i = this;
+
 		grid = new GridCell[xsize, ysize, zsize];
 
 		//temp: just fill every cell for which x + y + z <= 10

@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovementCrawl : MovementKeyboard {
+
 	// Speed at which to ascend
 	public float ascendSpeed;
 	// Speed at which to descend
 	public float descendSpeed;
 	// Multiply the movement speed when sidling
 	public float climbSpeedScalar;
+
+
 
 	private Vector3 ascendVec, descendVec, climbSpeedScalarVec;
 	public override void Start() {

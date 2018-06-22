@@ -8,6 +8,8 @@ using UnityEngine;
 //NOTE: it's necessary that IsoRender's Update occur before other objects which call its render,
 //so it can clear its pool.
 public class IsoRender : MonoBehaviour {
+	public static IsoRender i;
+
 	public Gradient heightGradient;   //colors applies to terrain based on y
 	public TerrainGrid terrainGrid;   //link to terrain grid
 	public Sprite basicBlockSprite;   //sprite to use for BASIC_BLOCK type
@@ -29,6 +31,8 @@ public class IsoRender : MonoBehaviour {
 
 	void Start()
 	{ 
+		i = this;
+
 		//Fill up the pool with sprites
 		gridSprites = new SpriteRenderer[spritePoolInitial];
 		for(int i=0; i<gridSprites.Length; i++)

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovementCollider : MonoBehaviour {
-	// Can't be null... (is there an Editor notation for this?)
-	public TerrainGrid grid;
 	// Cells this Collider treats as solid
 	public TerrainGrid.GridCell[] impassableCells;
 	// The radius of this cube
@@ -13,9 +11,9 @@ public class MovementCollider : MonoBehaviour {
 
 	// Get contents by rounding floats. Returns NONE if x,y, or z is out of bounds [0, size)
 	public TerrainGrid.GridCell GetGridCell(float x, float y, float z) {
-		if (x < 0 || x >= grid.xsize || y < 0 || y >= grid.ysize || z < 0 || z >= grid.zsize)
+		if (x < 0 || x >= TerrainGrid.i.xsize || y < 0 || y >= TerrainGrid.i.ysize || z < 0 || z >= TerrainGrid.i.zsize)
 			return TerrainGrid.GridCell.OOB;
-		return grid.grid[(int)x, (int)y, (int)z];
+		return TerrainGrid.i.grid[(int)x, (int)y, (int)z];
 	}
 
 	public float minX {get{return transform.localPosition.x - radius;}}

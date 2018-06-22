@@ -7,12 +7,11 @@ using UnityEngine;
 public class FreeObjectRender : MonoBehaviour
 {
 	public Sprite sprite;
-	public IsoRender isoRender;
 	public float bias;
 
 	void Update()
 	{
-		isoRender.RenderFreeObject(sprite, transform.position, bias, Color.white);  //use world position!
+		IsoRender.i.RenderFreeObject(sprite, transform.position, bias, Color.white);  //use world position!
 	}
 
 }
